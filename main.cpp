@@ -1,13 +1,8 @@
 #include <QCoreApplication>
 
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
-#include <cassert>
 
 #include <QVector>
-#include <QPair>
 #include <QString>
 
 class Interval
@@ -36,13 +31,13 @@ public:
     unsigned int end;
 };
 
-class MultipleInterval
+class QMultipleInterval
 {
 public:
-    MultipleInterval() {}
-    static MultipleInterval read(QString q_str)
+    QMultipleInterval() {}
+    static QMultipleInterval read(QString q_str)
     {
-        MultipleInterval intervals;
+        QMultipleInterval intervals;
         QStringList list = q_str.split(",");
 
         foreach(const QString& segment ,list)
@@ -72,7 +67,7 @@ public:
     class iterator
     {
         public:
-            typedef MultipleInterval* pointer;
+            typedef QMultipleInterval* pointer;
             iterator(pointer ptr) : ptr_(ptr), n(0), offset(0) { }
             iterator operator++() {
 
@@ -100,7 +95,7 @@ public:
                 return ptr_->ranges[n].start + offset;
             }
 
-            bool operator!=(MultipleInterval::iterator& rhs) {
+            bool operator!=(QMultipleInterval::iterator& rhs) {
                 return ptr_ != rhs.ptr_ || n != rhs.n || offset !=rhs.offset;
             }
         private:
@@ -109,7 +104,7 @@ public:
         public:
             int n;
             int offset;
-            MultipleInterval* ptr_;
+            QMultipleInterval* ptr_;
     };
 
     iterator begin()
@@ -131,11 +126,11 @@ int main()
 {
     QString str = "1-9,16,27-29";
 
-    MultipleInterval intervals = MultipleInterval::read(str);
+    QMultipleInterval intervals = QMultipleInterval::read(str);
     intervals.ranges.push_back(Interval(0, 3));
     intervals.ranges.push_back(Interval(7, 9));
 
-    for(MultipleInterval::iterator i = intervals.begin(); i != intervals.end(); i++)
+    for(QMultipleInterval::iterator i = intervals.begin(); i != intervals.end(); i++)
     {
         std::cout << *i << " ";
     }
