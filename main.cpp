@@ -4,6 +4,7 @@
 
 #include <QVector>
 #include <QString>
+#include <QDebug>
 
 class Interval
 {
@@ -117,7 +118,28 @@ public:
         return iterator(nullptr);
     }
 
-    unsigned int size();
+    QString toString()
+    {
+        QString q_str;
+
+        if(ranges.size() == 0 ) return QString();
+
+        for(Interval i : ranges)
+        {
+            if(i.start == i.end)
+                q_str.append(QString::number(i.start));
+            else
+                q_str.append(QString::number(i.start)).append('-').append(QString::number(i.end));
+
+            q_str.append(',');
+        }
+
+        //remove last comma
+        q_str.chop(1);
+
+        return q_str;
+    }
+
 public:
     QVector<Interval> ranges;
 };
@@ -139,6 +161,8 @@ int main()
     {
         std::cout << i << " ";
     }
+
+    qDebug() << intervals.toString();
 
     return 0;
 }
